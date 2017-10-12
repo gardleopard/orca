@@ -28,13 +28,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import retrofit.RetrofitError
 
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+
 @Slf4j
 @Component
 @CompileStatic
 class MonitorBakeTask implements OverridableTimeoutRetryableTask {
 
-  long backoffPeriod = 30000
-  long timeout = 3600000 // 1hr
+  long backoffPeriod = TimeUnit.SECONDS.toMillis(30)
+  long timeout = TimeUnit.HOURS.toMillis(1)
 
   @Autowired
   BakeryService bakery
@@ -82,4 +85,18 @@ class MonitorBakeTask implements OverridableTimeoutRetryableTask {
         return ExecutionStatus.RUNNING
     }
   }
+
+  @Override
+  long getDynamicBackoffPeriod(Duration taskDuration) {
+    if (taskDuration.toMillis() > TimeUnit.MINUTES.toMillis(1)) {
+      // task has been running > 1 min, drop retry interval to every 10 seconds
+      return Math.max(backoffPeriod, TimeUnit.SECONDS.toMillis(10))
+    } else if (taskDuration.toMillis() > TimeUnit.MINUTES.toMillis(5)) {
+      // task has been running > 5min, drop retry interval to every 30s
+      return Math.max(backoffPeriod, TimeUnit.SECONDS.toMillis(30))
+    }
+
+    return backoffPeriod
+  }
+
 }
