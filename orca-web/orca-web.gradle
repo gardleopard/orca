@@ -62,4 +62,14 @@ dependencies {
   runtime 'org.eclipse.jetty:jetty-servlets:9.2.11.v20150529'
 }
 
+configurations.all {
+  resolutionStrategy {
+    eachDependency {
+      if (it.requested.group.startsWith("com.fasterxml.jackson")) {
+        it.useVersion spinnaker.version('jackson')
+      }
+    }
+  }
+}
+
 tasks.bootRepackage.enabled = Boolean.valueOf(project.repackage)
