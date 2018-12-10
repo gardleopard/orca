@@ -6,12 +6,12 @@ import com.netflix.spinnaker.orca.pipeline.model.Stage
 import spock.lang.Specification
 import spock.lang.Subject
 
-class CloudFormationStageTest extends Specification {
+class DeployCloudFormationStageTest extends Specification {
 
   def builder = new TaskNode.Builder()
 
   @Subject
-  def cloudFormationStage = new CloudFormationStage()
+  def cloudFormationStage = new DeployCloudFormationStage()
 
   def "should return CloudFormation execution ID"() {
     given:
