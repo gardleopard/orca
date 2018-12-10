@@ -21,7 +21,7 @@ class CloudFormationStageTest extends Specification {
     cloudFormationStage.taskGraph(stage, builder)
 
     then:
-    stage.context == [:]
+    builder.graph.size == 2
   }
 
 }
