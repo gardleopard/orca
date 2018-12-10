@@ -1,6 +1,6 @@
 package com.netflix.spinnaker.orca.clouddriver.pipeline.providers.aws;
 
-import com.netflix.spinnaker.orca.clouddriver.tasks.providers.aws.cloudformation.MonitorCloudFormationTask;
+import com.netflix.spinnaker.orca.clouddriver.tasks.MonitorKatoTask;
 import com.netflix.spinnaker.orca.clouddriver.tasks.providers.aws.cloudformation.DeployCloudFormationTask;
 import com.netflix.spinnaker.orca.pipeline.StageDefinitionBuilder;
 import com.netflix.spinnaker.orca.pipeline.TaskNode;
@@ -15,7 +15,7 @@ public class DeployCloudFormationStage implements StageDefinitionBuilder {
 
   @Override
   public void taskGraph(@Nonnull Stage stage, @Nonnull TaskNode.Builder builder) {
-    builder.withTask(DeployCloudFormationTask.TASK_NAME, DeployCloudFormationTask.class)
-    .withTask(MonitorCloudFormationTask.TASK_NAME, MonitorCloudFormationTask.class);
+    builder.withTask(DeployCloudFormationTask.TASK_NAME, DeployCloudFormationTask.class);
+    //.withTask("monitorCloudFormation", MonitorKatoTask.class);
   }
 }

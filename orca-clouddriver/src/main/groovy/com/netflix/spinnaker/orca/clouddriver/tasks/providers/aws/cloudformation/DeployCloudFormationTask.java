@@ -38,6 +38,7 @@ public class DeployCloudFormationTask extends AbstractCloudProviderAwareTask imp
     String cloudProvider = getCloudProvider(stage);
 
     Map task = new HashMap(stage.getContext());
+    task.put("credentials", getCredentials(stage));
 
     Map<String, Map> operation = new ImmutableMap.Builder<String, Map>()
         .put(TASK_NAME, task)
