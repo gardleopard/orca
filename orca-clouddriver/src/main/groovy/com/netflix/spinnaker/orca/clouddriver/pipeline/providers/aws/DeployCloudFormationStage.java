@@ -15,7 +15,7 @@ public class DeployCloudFormationStage implements StageDefinitionBuilder {
 
   @Override
   public void taskGraph(@Nonnull Stage stage, @Nonnull TaskNode.Builder builder) {
-    builder.withTask(DeployCloudFormationTask.TASK_NAME, DeployCloudFormationTask.class);
-    //.withTask("monitorCloudFormation", MonitorKatoTask.class);
+    builder.withTask(DeployCloudFormationTask.TASK_NAME, DeployCloudFormationTask.class)
+    .withTask("monitorCloudFormation", MonitorKatoTask.class);
   }
 }
